@@ -1,0 +1,31 @@
+require "autotest/bundler"
+require "autotest/rspec2"
+
+Autotest.add_hook :initialize do |at|
+
+  %w{.git}.each do |exception|
+    at.add_exception(exception)
+  end
+
+  at.clear_mappings
+  
+  at.add_mapping(%r%^lib/wmbind/(.*)\.rb$%) do |_, m|
+    ["spec/unit/wmbind_#{m[1]}_spec.rb"]
+  end
+
+  at.add_mapping(%r%^spec/spec_helper.rb$%) do |_,_|
+    ["spec/spec_helper.rb"] + at.files_matching(%r%^spec/(integration|unit)/.*rb$%)
+  end
+
+  at.add_mapping(%r%^client.rb$%) do |_,_|
+    ["spec/integration/client_integration_spec.rb"]
+  end
+
+  at.add_mapping(%r%^spec/(integration|unit)/.*rb$%) {|filename, _|
+    filename
+  }
+  
+end
+
+
+

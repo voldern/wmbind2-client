@@ -7,5 +7,10 @@ task :console do
   exec "irb -Ilib -rwmbind"
 end
 
+desc "Run autotest."
+task :autotest do
+  exec "autotest -s rspec2"
+end
+
 task :default => :spec
 
