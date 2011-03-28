@@ -37,6 +37,11 @@ describe "WMBINDClient" do
       
     end
 
+    it "displays name" do
+      zone = WMBIND::Zone.new(File.join(File.dirname(__FILE__), '../data/test.com'))
+      @resp['name'].should == zone.name
+    end
+
     it "displays ttl" do
       zone = WMBIND::Zone.new(File.join(File.dirname(__FILE__), '../data/test.com'))
       @resp['ttl'].should == zone.ttl

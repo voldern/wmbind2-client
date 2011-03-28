@@ -1,3 +1,4 @@
+$ORIGIN test.com.
 $TTL 604800
 @	604800	IN		SOA		ns1.test.com. admin.test.com. (
 			2011031600 	; Serial

@@ -3,12 +3,13 @@ require 'dnsruby'
 module WMBIND
   class Zone
 
-    attr_reader :soa, :ttl
+    attr_reader :soa, :ttl, :name
     
     def initialize(zone_file)
       @zone = File.new(zone_file, 'r')
       @records = []
       @ttl = nil
+      @name = nil
       
       @soa = parse_soa
       @records = parse_records
@@ -21,6 +22,12 @@ module WMBIND
       # part of the zonefile
       soa = []
       while line = @zone.gets
+        # Ignore origin line
+        if line =~ /^\$ORIGIN\s+([\w\d\.-]+)/
+          @name = $1
+          next
+        end
+        
         # Ignore TTL line
         if line =~ /^\$TTL\s+(\d+)/
           @ttl = $1.to_i

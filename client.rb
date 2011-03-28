@@ -22,7 +22,7 @@ class WMBINDClient < Sinatra::Base
       'expire' => soa.expire, 'minimum' => soa.minimum,
       'ns' => soa.mname.to_s + '.', 'email' => soa.rname.to_s + '.' }
     
-    { 'name' => '', 'ttl' => zone.ttl, 'soa' => soa }.to_json
+    { 'name' => zone.name, 'ttl' => zone.ttl, 'soa' => soa }.to_json
   end
 end
 

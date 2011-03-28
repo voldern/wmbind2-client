@@ -6,6 +6,11 @@ describe WMBIND::Zone do
     @zone = WMBIND::Zone.new(File.join(File.dirname(__FILE__), '../data/test.com'))
   end
 
+  it "should parse name from ORIGIN" do
+    @zone.name.should == 'test.com.'
+  end
+  
+
   it "should parse global TTL" do
     @zone.ttl.should == 604800
   end
