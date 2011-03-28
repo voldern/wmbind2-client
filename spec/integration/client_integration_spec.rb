@@ -48,7 +48,7 @@ describe "WMBINDClient" do
       @soa.should == { 'ttl' => @zsoa.ttl, 'serial' => @zsoa.serial,
         'refresh' => @zsoa.refresh, 'retry' => @zsoa.retry,
         'expire' => @zsoa.expire, 'minimum' => @zsoa.minimum,
-        'ns' => @zsoa.mname.to_s + '.', 'email' => @zsoa.rname.to_s + '.' }.to_json
+        'ns' => @zsoa.mname.to_s + '.', 'email' => @zsoa.rname.to_s + '.' }
     end
   end
 end
