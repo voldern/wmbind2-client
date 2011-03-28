@@ -11,14 +11,16 @@ through WMBIND.
 
 It runs in two modes: master or slave.
 
-While in master mode it can do the following:
+**While in master mode it can do the following:**
+
 * Read existing zone files living on the client
 * Saves new zones
 * Update exisiting zones
 * Verify zones
 * Destroy zones
 
-While in slave mode it does the following:
+**While in slave mode it does the following:**
+
 * Create new zone
 * Destroy zone
 * Force zone
