@@ -3,7 +3,7 @@ require 'dnsruby'
 module WMBIND
   class Zone
 
-    attr_reader :soa, :ttl, :name
+    attr_reader :soa, :ttl, :records
     
     def initialize(zone_file)
       @zone = File.new(zone_file, 'r')
@@ -13,6 +13,15 @@ module WMBIND
       
       @soa = parse_soa
       @records = parse_records
+    end
+
+    def name
+      if @name.nil?
+        # Parse name from filename
+        @name = File.basename(@zone.path)
+      else
+        @name
+      end
     end
 
     private
@@ -53,12 +62,45 @@ module WMBIND
     end
 
     def parse_records
+      rrecords = []
       while line = @zone.gets
         # Do not parse line containing only a comment
         next if line =~ /^\s*;\s*$/
-        @records << Dnsruby::RR.create(line)
+        rrecords << Dnsruby::RR.create(line)
       end
-      @records
+
+      rrecords.each do |r|
+        record = { :string => r.to_s, :ttl => r.ttl, :type => r.type }
+        
+        # If its an catch all record remove \\ from name
+        if Dnsruby::Name::create('@') == r.name
+          record[:name] = '@'
+        else
+          record[:name] = r.name.to_s
+        end
+        
+        if r.class == Dnsruby::RR::IN::NS
+          record[:domain] = domain_to_s(r.domainname)
+        elsif r.class == Dnsruby::RR::IN::A
+          record[:address] = r.address.to_s
+        elsif r.class == Dnsruby::RR::IN::MX
+          record.update({ :exchange => domain_to_s(r.exchange),
+                        :preference => r.preference })
+        end
+
+        records << record
+      end
+
+      records
+    end
+
+    private
+    def domain_to_s(path)
+      if path.absolute?
+        path.to_s + '.'
+      else
+        path.to_s
+      end
     end
   end
 end

@@ -1,0 +1,7 @@
+$TTL 604800
+@	604800	IN		SOA		ns1.test.com. admin.test.com. (
+			2011031600 	; Serial
+			28800 		; Refresh
+			7200 		; Retry
+			1209600 	; Expire
+			604800) 	; Negative Cache TTL
