@@ -12,7 +12,12 @@ module WMBIND
     end
 
     def self.bind
-      IO.popen('named -v') { |f| f.gets }.strip
+      version = IO.popen('named -v') { |f| f.gets }
+      unless version.nil?
+        version.strip
+      else
+        'not found'
+      end
     end
   end
 end

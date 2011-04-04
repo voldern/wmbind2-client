@@ -16,4 +16,9 @@ describe WMBIND::Server do
     IO.should_receive(:popen).with('named -v').and_return('BIND 9.0.0')
     WMBIND::Server.bind.should == 'BIND 9.0.0'
   end
+
+  it "should return 'not found' on unknown bind" do
+    IO.should_receive(:popen).with('named -v').and_return(nil)
+    WMBIND::Server.bind.should == 'not found'
+  end
 end
