@@ -14,7 +14,9 @@ describe "WMBINDClient" do
     resp = JSON.parse(last_response.body)
     
     keys = ['hostname', 'uname', 'bind']
-    resp.keys.should == keys
+    keys.each do |key|
+      resp.keys.should include(key)
+    end
 
     resp['hostname'].should == WMBIND::Server.hostname
     resp['uname'].should == WMBIND::Server.uname
